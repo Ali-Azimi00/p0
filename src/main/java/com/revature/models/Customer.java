@@ -24,6 +24,13 @@ public class Customer {
         this.donut_id_fk = donut_id_fk;
     }
 
+    public Customer(String first_name, String last_name, int order_size, int donut_id_fk) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.order_size = order_size;
+        this.donut_id_fk = donut_id_fk;
+    }
+
     public int getOrder_number() {
         return order_number;
     }

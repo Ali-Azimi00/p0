@@ -8,12 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CustomerDAO implements CustomerInterface {
+public class CustomerDAO implements CustomerDAOInterface {
 
     @Override
     public Customer getCustomerByNumber(int order_number) {
 
-        try(Connection conn = ConnectionUtil.getConnection()){
+        try (Connection conn = ConnectionUtil.getConnection()) {
             String sql = "SELECT * FROM customer WHERE order_number = ?";
 
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -22,8 +22,8 @@ public class CustomerDAO implements CustomerInterface {
 
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()){
-                Customer customer= new Customer(
+            if (rs.next()) {
+                Customer customer = new Customer(
                         rs.getInt("order_number"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
@@ -34,7 +34,7 @@ public class CustomerDAO implements CustomerInterface {
                 return customer;
             }
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Failed to get customer order number");
             e.printStackTrace();
         }
@@ -42,6 +42,88 @@ public class CustomerDAO implements CustomerInterface {
         return null;
     }
 
+    @Override
+    public Customer getCustomerByName(String first_name, String last_name) {
+
+        try (Connection conn = ConnectionUtil.getConnection()) {
+            String sql = "SELECT * FROM customer WHERE first_name = ? AND last_name = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, first_name);
+            ps.setString(2, last_name);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Customer customer = new Customer(
+                        rs.getInt("order_number"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getInt("order_size"),
+                        rs.getInt("donut_id_fk")
+                );
+                return customer;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve customer name");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public Customer addCustomerOrder(Customer order) {
+
+        try(Connection conn = ConnectionUtil.getConnection()) {
+            String sql ="INSERT INTO customer(first_name, last_name, order_size, donut_id_fk) VALUES (?,?,?,?)";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, order.getFirst_name());
+            ps.setString(2,order.getLast_name());
+            ps.setInt(3,order.getOrder_size());
+            ps.setInt(4,order.getDonut_id_fk());
+
+            ps.executeUpdate();
+
+            return order;
+
+
+        }catch(SQLException e){
+            System.out.println("Failed to add customer order");
+            e.printStackTrace();
+
+        }
+
+        return null;
+    }
+
+
+    @Override
+    public void deleteCustomerByNumber(int order_number) {
+
+        try (Connection conn = ConnectionUtil.getConnection()) {
+
+            String sql ="DELETE FROM customer WHERE order_number = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1,order_number);
+
+            ps.executeUpdate();
+
+            System.out.println("now deleting order number: " + order_number);
+
+
+
+        } catch (SQLException e) {
+            System.out.println("Failed to delete order number: " + order_number);
+            e.printStackTrace();
+        }
+    }
 
 
 }
