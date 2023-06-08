@@ -2,6 +2,8 @@ package com.revature.DAO;
 
 import com.revature.models.Customer;
 
+import java.util.ArrayList;
+
 public interface CustomerDAOInterface {
 
     Customer getCustomerByNumber(int order_number);
@@ -11,7 +13,11 @@ public interface CustomerDAOInterface {
 
     Customer addCustomerOrder(Customer order);
 
+    ArrayList<Customer> getAllCustomerOrders();
+
     void deleteCustomerByNumber(int order_number);
+
+
 
 
 

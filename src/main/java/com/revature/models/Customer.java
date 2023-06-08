@@ -12,10 +12,19 @@ public class Customer {
 
     private int donut_id_fk;
 
+    private Donuts donut;
+
     public Customer (){
 
     };
 
+    public Customer(int order_number, String first_name, String last_name, int order_size, Donuts donut) {
+        this.order_number= order_number;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.order_size = order_size;
+        this.donut = donut;
+    }
     public Customer(int order_number, String first_name, String last_name, int order_size, int donut_id_fk) {
         this.order_number = order_number;
         this.first_name = first_name;
@@ -24,12 +33,12 @@ public class Customer {
         this.donut_id_fk = donut_id_fk;
     }
 
-    public Customer(String first_name, String last_name, int order_size, int donut_id_fk) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.order_size = order_size;
-        this.donut_id_fk = donut_id_fk;
-    }
+//    public Customer(String first_name, String last_name, int order_size, int donut_id_fk) {
+//        this.first_name = first_name;
+//        this.last_name = last_name;
+//        this.order_size = order_size;
+//        this.donut_id_fk = donut_id_fk;
+//    }
 
     public int getOrder_number() {
         return order_number;
@@ -71,6 +80,14 @@ public class Customer {
         this.donut_id_fk = donut_id_fk;
     }
 
+    public Donuts getDonut() {
+        return donut;
+    }
+
+    public void setDonut(Donuts donut) {
+        this.donut = donut;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -78,7 +95,8 @@ public class Customer {
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", order_size=" + order_size +
-                ", donut_id_fk=" + donut_id_fk +
+//                ", donut_id_fk=" + donut_id_fk +
+                ", donut=" + donut +
                 '}';
     }
 }

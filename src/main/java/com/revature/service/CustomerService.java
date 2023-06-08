@@ -47,7 +47,7 @@ public class CustomerService {
             System.out.println("Required fields are not met");
             System.out.println("First or Last name are required");
             System.out.println("Positive integer for order size is required");
-            System.out.println("Choose a donut option between jk1-5");
+            System.out.println("Choose a donut option between 1-5");
             return null;
         }
     }

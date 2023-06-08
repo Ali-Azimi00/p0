@@ -1,12 +1,11 @@
 package com.revature.DAO;
 
 import com.revature.models.Customer;
+import com.revature.models.Donuts;
 import com.revature.utils.ConnectionUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class CustomerDAO implements CustomerDAOInterface {
 
@@ -22,13 +21,17 @@ public class CustomerDAO implements CustomerDAOInterface {
 
             ResultSet rs = ps.executeQuery();
 
+            DonutsDAO donutsDAO = new DonutsDAO();
+
+
             if (rs.next()) {
                 Customer customer = new Customer(
                         rs.getInt("order_number"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getInt("order_size"),
-                        rs.getInt("donut_id_fk")
+                        donutsDAO.getDonutById((rs.getInt("donut_id_fk")))
+
                 );
 
                 return customer;
@@ -100,6 +103,44 @@ public class CustomerDAO implements CustomerDAOInterface {
 
         return null;
     }
+
+    @Override
+    public ArrayList<Customer> getAllCustomerOrders() {
+        try(Connection conn = ConnectionUtil.getConnection()){
+            String sql = "SELECT * FROM customer";
+
+            Statement s = conn.createStatement();
+
+            ResultSet rs = s.executeQuery(sql);
+
+            ArrayList<Customer> ordersList = new ArrayList<>();
+
+            DonutsDAO donutsDAO = new DonutsDAO();
+
+            while(rs.next()){
+                Customer customer = new Customer(
+                        rs.getInt("order_number"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getInt("order_size"),
+                        donutsDAO.getDonutById((rs.getInt("donut_id_fk")))
+
+                );
+
+                 ordersList.add(customer);
+            }
+
+            return ordersList;
+
+        }catch(SQLException e){
+            System.out.println("Failed to retreive all orders list");
+            e.printStackTrace();
+        }
+
+        return null;
+    };
+
+
 
 
     @Override
