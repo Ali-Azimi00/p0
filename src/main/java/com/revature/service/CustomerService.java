@@ -68,6 +68,33 @@ public class CustomerService {
         }
     }
 
+    public boolean updateCustomer(String first_name, int order_number){
+        if(first_name == null || first_name.trim().equals(" ") ){
+            return false;
+        }
+
+        char[] nameArray = first_name.toLowerCase().toCharArray();
+
+        String formattedName ="";
+
+        formattedName += Character.toUpperCase(nameArray[0]);
+
+        for(int i= 1; i<nameArray.length; i++){
+            if(nameArray[i-1] == ' '){
+                formattedName += Character.toUpperCase(nameArray[i]);
+            }
+            else{
+                formattedName += nameArray[i];
+            }
+        }
+
+        if(order_number > 0){
+            return customerDAO.updateCustomer(formattedName, order_number);
+        }
+
+        return false;
+    }
+
     public ArrayList<Customer> getAllCustomerOrders(){
         return customerDAO.getAllCustomerOrders();
     };

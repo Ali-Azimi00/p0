@@ -13,7 +13,7 @@ public class CustomerDAO implements CustomerDAOInterface {
     public Customer getCustomerByNumber(int order_number) {
 
         try (Connection conn = ConnectionUtil.getConnection()) {
-            String sql = "SELECT * FROM customer WHERE order_number = ?";
+            String sql = "SELECT * FROM customer WHERE order_number = ? ";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -107,7 +107,7 @@ public class CustomerDAO implements CustomerDAOInterface {
     @Override
     public ArrayList<Customer> getAllCustomerOrders() {
         try(Connection conn = ConnectionUtil.getConnection()){
-            String sql = "SELECT * FROM customer";
+            String sql = "SELECT * FROM customer ORDER BY order_number";
 
             Statement s = conn.createStatement();
 
@@ -138,9 +138,30 @@ public class CustomerDAO implements CustomerDAOInterface {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean updateCustomer(String first_name, int order_number) {
+        try(Connection conn = ConnectionUtil.getConnection()){
+
+            String sql = "UPDATE customer SET first_name = ? WHERE order_number = ?";
+
+            PreparedStatement ps= conn.prepareStatement(sql);
+
+            ps.setString(1,first_name);
+            ps.setInt(2,order_number);
+
+            ps.executeUpdate();
+
+            return true;
+
+        }catch(SQLException e){
+            System.out.println("Failed to update customer name");
+            e.printStackTrace();
+        }
+
+        return false;
     };
-
-
 
 
     @Override

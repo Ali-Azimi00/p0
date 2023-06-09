@@ -78,6 +78,28 @@ public class CustomerController {
         }
     }
 
+    public static void handleUpdateCustomer(Context ctx){
+
+        Customer submittedCustomer = ctx.bodyAsClass(Customer.class);
+
+        boolean updateSuccessful = customerService.updateCustomer(submittedCustomer.getFirst_name(),
+                                                             submittedCustomer.getOrder_number());
+
+
+
+        if(updateSuccessful){
+            ctx.status(200);
+            ctx.result("Order #"+submittedCustomer.getOrder_number()+"'s first name has been updated to: " + submittedCustomer.getFirst_name());
+            logger.info("Order #"+submittedCustomer.getOrder_number()+"'s first name has been updated to: " + submittedCustomer.getFirst_name());
+        }
+        else{
+            ctx.status(400);
+            ctx.result("Failed to update order" + submittedCustomer.getOrder_number()+"'s first name");
+            logger.warn("Failed to update order" + submittedCustomer.getOrder_number()+"'s first name from " + submittedCustomer.getFirst_name() );
+
+        }
+    }
+
     public static void handleDeleteOrder(Context ctx){
         int id;
 

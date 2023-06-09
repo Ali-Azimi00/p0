@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.revature.controller.DonutsController;
 import com.revature.controller.CustomerController;
+import com.revature.models.Customer;
 import io.javalin.Javalin;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
@@ -47,10 +48,16 @@ public class JavalinAppConfig {
                 path("customers", ()->{
                     get(CustomerController::handleGetAllOrders);
                     post(CustomerController::handleCreateOrder);
+                    put(CustomerController::handleUpdateCustomer);
+
 
                     path("{id}",()->{
                         get(CustomerController::handleGetByNumber);
                         delete(CustomerController::handleDeleteOrder);
+//                        path("{first_name}", ()->{
+//                            put(CustomerController::handleUpdateCustomer);
+//                        });
+
                     });
                 });
             });

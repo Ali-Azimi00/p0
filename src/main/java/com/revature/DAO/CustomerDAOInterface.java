@@ -15,6 +15,8 @@ public interface CustomerDAOInterface {
 
     ArrayList<Customer> getAllCustomerOrders();
 
+    boolean updateCustomer(String first_name,int order_number);
+
     void deleteCustomerByNumber(int order_number);
 
 
