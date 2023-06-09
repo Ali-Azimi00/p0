@@ -9,10 +9,12 @@ public class DonutsService {
     private final DonutsDAOInterface donutsDAO = new DonutsDAO();
 
     public Donuts getDonutById(int id){
-        if(id<0){
+
+        if(id>0 && id < 6){
             return donutsDAO.getDonutById(id);
         }
         else{
+            System.out.println("Order number is not an option, choose bewtween Donut order 1-6 ");
             return null;
         }
     }

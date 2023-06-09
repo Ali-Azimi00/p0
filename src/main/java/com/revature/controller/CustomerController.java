@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.DAO.CustomerDAO;
 import com.revature.models.Customer;
+import com.revature.models.Donuts;
 import com.revature.service.CustomerService;
 import io.javalin.http.Context;
 import com.revature.utils.JavalinAppConfig;
@@ -34,21 +35,30 @@ public class CustomerController {
 
         if(customer != null){
             ctx.status(200);
-            ctx.json(customer);
-            ctx.result("this worked?");
+//            ctx.json(customer);
+            ctx.result(customer.getFirst_name()+ " ordered the " + customer.getDonut().getDonut_name());
             logger.info("The following role was obtained from db: " + customer.toString());
         }else{
             ctx.status(404);
+            ctx.result("Couldn't find order number " + id);
             logger.warn("No resource was found at id = " + id + " from ip: " + ctx.ip());
         }
     }
 
     public static void handleGetAllOrders(Context ctx){
         ArrayList<Customer> customers = customerService.getAllCustomerOrders();
+        ArrayList<String> statement = new ArrayList<>();
 
         ctx.status(200);
-        ctx.json(customers);
 
+        for (Customer c : customers) {
+           statement.add("Order #"+c.getOrder_number() + " is " +
+                   c.getFirst_name() + " " +c.getLast_name()+ " | order of " +
+                   c.getOrder_size() + " X " + c.getDonut().getDonut_name()
+           );
+        }
+        ctx.json(statement);
+//
 //        System.out.println(customers.get(0).getOrder_number());
     }
 
@@ -84,6 +94,7 @@ public class CustomerController {
 
         if(orderDeleted){
             ctx.status(200);
+            ctx.result("Successfully deleted order: " + id);
         }
         else{
             ctx.status(400);

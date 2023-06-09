@@ -10,9 +10,12 @@ public class CustomerService {
 //Will be used once we set up the controller
     private final CustomerDAOInterface customerDAO = new CustomerDAO();
 
+
+
     public Customer checkOrderByNumber(int number){
 
-        if(number > 0){
+        if(number > 0 && customerDAO.getCustomerByNumber(number) != null
+        ){
             return customerDAO.getCustomerByNumber(number);
         }
         else{
