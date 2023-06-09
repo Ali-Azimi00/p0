@@ -78,7 +78,7 @@ public class CustomerDAO implements CustomerDAOInterface {
     }
 
     @Override
-    public Customer addCustomerOrder(Customer order) {
+    public Customer insertCustomer(Customer order) {
 
         try(Connection conn = ConnectionUtil.getConnection()) {
             String sql ="INSERT INTO customer(first_name, last_name, order_size, donut_id_fk) VALUES (?,?,?,?)";

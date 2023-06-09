@@ -42,7 +42,7 @@ public class DonutsDAO implements DonutsDAOInterface {
     }
 
     @Override
-    public ArrayList<Donuts> getFullMenu() {
+    public ArrayList<Donuts> getAllDonuts() {
         try (Connection conn = ConnectionUtil.getConnection()) {
             String sql = "Select * FROM donuts";
 
@@ -76,7 +76,7 @@ public class DonutsDAO implements DonutsDAOInterface {
     }
 
     @Override
-    public boolean buildCustomDonut(String coating, String topping, String filling) {
+    public boolean updateCustomDonut(String coating, String topping, String filling) {
 
         try(Connection conn = ConnectionUtil.getConnection()){
             String sql = "UPDATE donuts SET coating= ? ,topping= ?,filling= ? WHERE donut_name= 'Custom'";

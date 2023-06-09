@@ -4,14 +4,16 @@ import com.revature.DAO.CustomerDAO;
 import com.revature.DAO.CustomerDAOInterface;
 import com.revature.models.Customer;
 
+import java.util.ArrayList;
+
 public class CustomerService {
 //Will be used once we set up the controller
     private final CustomerDAOInterface customerDAO = new CustomerDAO();
 
-    public Customer getCustomerByNumber(int id){
+    public Customer checkOrderByNumber(int number){
 
-        if(id > 0){
-            return customerDAO.getCustomerByNumber(id);
+        if(number > 0){
+            return customerDAO.getCustomerByNumber(number);
         }
         else{
             return null;
@@ -41,7 +43,7 @@ public class CustomerService {
 
 
         if( name && orderSize && donutId){
-            return customerDAO.addCustomerOrder(order);
+            return customerDAO.insertCustomer(order);
         }
         else{
             System.out.println("Required fields are not met");
@@ -52,11 +54,9 @@ public class CustomerService {
         }
     }
 
-
-
-
-
-
+    public ArrayList<Customer> getAllCustomerOrders(){
+        return customerDAO.getAllCustomerOrders();
+    };
 
 
 

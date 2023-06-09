@@ -26,12 +26,12 @@ public class Launcher {
         DonutsDAO currentDonut = new DonutsDAO();
 
 //        Customer marge = new Customer("Marge", "Simpson", 3,2);
-//        currentCustomer.addCustomerOrder(marge);
+//        currentCustomer.insertCustomer(marge);
 
 //        currentCustomer.deleteCustomerByNumber(1);
 
 
-        currentDonut.buildCustomDonut("dbl frosting", "dbls prinkles", "jelly");
+        currentDonut.updateCustomDonut("dbl frosting", "dbls prinkles", "jelly");
 
         System.out.println("Your custom donut is: " + currentDonut.getDonutById(5));
         System.out.println(currentCustomer.getCustomerByNumber(1));
@@ -41,9 +41,9 @@ public class Launcher {
 
         System.out.println("(ˆڡˆ)◞\uD83C\uDF69");
 
-        currentDonut.buildCustomDonut(null, null, null);
+        currentDonut.updateCustomDonut(null, null, null);
 
-        ArrayList<Donuts> menu = currentDonut.getFullMenu();
+        ArrayList<Donuts> menu = currentDonut.getAllDonuts();
         for (Donuts d : menu) {
             System.out.println(d);
         }
