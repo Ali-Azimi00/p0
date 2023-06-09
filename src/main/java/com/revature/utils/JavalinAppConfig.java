@@ -32,15 +32,26 @@ public class JavalinAppConfig {
         }
     };
 
+//    private static final Logger logger = LoggerFactory.getLogger(JavalinAppConfig.class);
+
 
     private Javalin app = Javalin.create(config -> config.jsonMapper(gsonMapper))
+
+//            .before(ctx->{
+//                //will run before all requests to the server
+//                //use to log requests sent
+//                logger.info(ctx.method()+" Request sent pat " + ctx.fullUrl());
+//            })
 
             .routes(()->{
                 path("customers", ()->{
                     get(CustomerController::handleGetAllOrders);
-//                    path("{number}",()->{
-//                        get(CustomerController::handleGetByNumber);
-//                    });
+                    post(CustomerController::handleCreateOrder);
+
+                    path("{id}",()->{
+                        get(CustomerController::handleGetByNumber);
+                        delete(CustomerController::handleDeleteOrder);
+                    });
                 });
             });
 

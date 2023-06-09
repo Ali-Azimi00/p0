@@ -21,6 +21,17 @@ public class CustomerService {
 
     }
 
+    public boolean deleteByOrderNumber(int number){
+
+        if( number > 0){
+            customerDAO.deleteCustomerByNumber(number);
+            return true;
+        }
+
+        System.out.println("Failed to delete order number " +number);
+        return false;
+    };
+
     public Customer getCustomerByName(String first_name, String last_name){
 ;
         if(first_name != null && last_name != null){
@@ -57,6 +68,8 @@ public class CustomerService {
     public ArrayList<Customer> getAllCustomerOrders(){
         return customerDAO.getAllCustomerOrders();
     };
+
+
 
 
 

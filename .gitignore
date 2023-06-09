@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+##logtxt##
+log.txt
+
+##application properties
+src\main\resources\application.properties

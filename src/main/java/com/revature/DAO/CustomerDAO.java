@@ -159,7 +159,6 @@ public class CustomerDAO implements CustomerDAOInterface {
             System.out.println("now deleting order number: " + order_number);
 
 
-
         } catch (SQLException e) {
             System.out.println("Failed to delete order number: " + order_number);
             e.printStackTrace();
