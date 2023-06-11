@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.DAO.CustomerDAO;
+import com.revature.DAO.DonutsDAO;
 import com.revature.models.Customer;
 import com.revature.models.Donuts;
 import com.revature.service.CustomerService;
@@ -49,12 +50,23 @@ public class CustomerController {
         ArrayList<Customer> customers = customerService.getAllCustomerOrders();
         ArrayList<String> statement = new ArrayList<>();
 
+
         ctx.status(200);
 
         for (Customer c : customers) {
+            String isCustom = "";
+            if(c.getDonut().getDonut_id() == 5){
+                isCustom = "("
+                        + c.getDonut().getCoating()+ " coating" + " , "
+                        + c.getDonut().getFilling() + " filling"+ " , "
+                        + c.getDonut().getTopping()+ " topping" + " , "
+                        + ")";
+            }
+
            statement.add("Order #"+c.getOrder_number() + " is " +
                    c.getFirst_name() + " " +c.getLast_name()+ " | order of " +
-                   c.getOrder_size() + " X " + c.getDonut().getDonut_name()
+                   c.getOrder_size() + " X " + c.getDonut().getDonut_name() +
+                   isCustom
            );
         }
         ctx.json(statement);
@@ -66,10 +78,28 @@ public class CustomerController {
         Customer customer = ctx.bodyAsClass(Customer.class);
 
         Customer returnedCustomer = customerService.createNewCustomerOrder(customer);
+        DonutsDAO donutsDAO = new DonutsDAO();
+
+        String fName = returnedCustomer.getFirst_name();
+        String lName = returnedCustomer.getLast_name();
+        int orderNum = returnedCustomer.getOrder_number();
+        int orderSize = returnedCustomer.getOrder_size();
+        int donutNum= returnedCustomer.getDonut_id_fk();
+        String donutName = donutsDAO.getDonutById(donutNum).getDonut_name();
+       // System.out.println(returnedCustomer.getDonut().getDonut_name());
+
+//        if(donutNum == 5){
+//            donutsDAO.updateCustomDonut(null,null,null);
+//            System.out.println("Order 5 recognized");
+//        }
 
         if(returnedCustomer != null){
             ctx.status(201);
-            ctx.json(returnedCustomer);
+            ctx.result("New Order Submitted : " + fName + " " + lName + " made "
+                    + orderSize + " order(s) of "
+                    +" #" + donutNum + " : "
+                    +  donutName
+            );
             logger.info("The following employee was created: " + returnedCustomer.toString());
 
         }else{
@@ -120,6 +150,7 @@ public class CustomerController {
         }
         else{
             ctx.status(400);
+            ctx.result("Number " + id +" does not exist");
         }
 
     }

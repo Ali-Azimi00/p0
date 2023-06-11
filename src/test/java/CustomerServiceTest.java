@@ -23,5 +23,16 @@ public class CustomerServiceTest {
         assertNull(customerService.checkOrderByNumber(9000000^10));
     }
 
+    @Test
+    public void deleteNumberExists(){
+        assertFalse(customerService.deleteByOrderNumber(-2));
+    }
+
+    @Test void getAllOrdersNotNull(){
+        assertNotNull(customerService.getAllCustomerOrders());
+    }
+
+
+
 
 }

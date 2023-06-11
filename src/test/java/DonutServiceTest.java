@@ -13,6 +13,11 @@ public class DonutServiceTest {
     }
 
     @Test
+    public void getDonutByIdNegative(){
+        assertNull(donutsService.getDonutById(-2));
+    }
+
+    @Test
     public void getDonutIdWithinBounds(){
         //There is no donut order above 5
         assertNull(donutsService.getDonutById(6));

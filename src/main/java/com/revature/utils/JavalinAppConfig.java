@@ -49,17 +49,23 @@ public class JavalinAppConfig {
                     get(CustomerController::handleGetAllOrders);
                     post(CustomerController::handleCreateOrder);
                     put(CustomerController::handleUpdateCustomer);
-
-
                     path("{id}",()->{
                         get(CustomerController::handleGetByNumber);
                         delete(CustomerController::handleDeleteOrder);
 //                        path("{first_name}", ()->{
 //                            put(CustomerController::handleUpdateCustomer);
 //                        });
-
                     });
                 });
+                path("menu",()->{
+                    get(DonutsController::handleGetMenu);
+                    put(DonutsController::handleBuildDonut);
+                    path("{id}",()-> {
+                        get(DonutsController::handleGetById);
+                    });
+                });
+
+
             });
 
 

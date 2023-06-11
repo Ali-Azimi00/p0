@@ -24,17 +24,6 @@ public class CustomerService {
 
     }
 
-    public boolean deleteByOrderNumber(int number){
-
-        if( number > 0){
-            customerDAO.deleteCustomerByNumber(number);
-            return true;
-        }
-
-        System.out.println("Failed to delete order number " +number);
-        return false;
-    };
-
     public Customer getCustomerByName(String first_name, String last_name){
 ;
         if(first_name != null && last_name != null){
@@ -43,7 +32,6 @@ public class CustomerService {
 
         return null;
     }
-
 
     public Customer createNewCustomerOrder(Customer order){
         String first_name = order.getFirst_name();
@@ -97,6 +85,32 @@ public class CustomerService {
 
     public ArrayList<Customer> getAllCustomerOrders(){
         return customerDAO.getAllCustomerOrders();
+    };
+
+    public boolean deleteByOrderNumber(int number){
+
+        ArrayList<Customer> customerList = customerDAO.getAllCustomerOrders();
+        ArrayList<Integer> orderNums = new ArrayList<>();
+
+        for(Customer c : customerList){
+            orderNums.add(c.getOrder_number());
+        }
+
+        boolean containsNumber = false;
+
+        for (Integer c: orderNums){
+            if(c == number){
+                containsNumber = true;
+            }
+        }
+
+        if( number > 0 && containsNumber){
+            customerDAO.deleteCustomerByNumber(number);
+            return true;
+        }
+
+        System.out.println("Failed to delete order number " +number);
+        return containsNumber;
     };
 
 
