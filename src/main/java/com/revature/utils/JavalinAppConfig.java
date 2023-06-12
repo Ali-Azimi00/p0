@@ -52,9 +52,7 @@ public class JavalinAppConfig {
                     path("{id}",()->{
                         get(CustomerController::handleGetByNumber);
                         delete(CustomerController::handleDeleteOrder);
-//                        path("{first_name}", ()->{
-//                            put(CustomerController::handleUpdateCustomer);
-//                        });
+                        put(CustomerController::handleUpdateDonutOrder);
                     });
                 });
                 path("menu",()->{
@@ -63,6 +61,9 @@ public class JavalinAppConfig {
                     path("{id}",()-> {
                         get(DonutsController::handleGetById);
                     });
+                });
+                path("sample",()->{
+                    get(DonutsController::handleSample);
                 });
 
 

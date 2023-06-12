@@ -20,7 +20,7 @@ public class CustomerServiceTest {
 
     @Test
     public void checkOrderNumberExists() {
-        assertNull(customerService.checkOrderByNumber(9000000^10));
+        assertNull(customerService.checkOrderByNumber(5));
     }
 
     @Test

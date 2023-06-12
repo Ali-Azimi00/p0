@@ -38,7 +38,8 @@ public class CustomerController {
             ctx.status(200);
 //            ctx.json(customer);
             ctx.result(customer.getFirst_name()+ " ordered the " + customer.getDonut().getDonut_name());
-            logger.info("The following role was obtained from db: " + customer.toString());
+            logger.info("The following role was obtained from db: " + customer.toString()
+            );
         }else{
             ctx.status(404);
             ctx.result("Couldn't find order number " + id);
@@ -50,28 +51,16 @@ public class CustomerController {
         ArrayList<Customer> customers = customerService.getAllCustomerOrders();
         ArrayList<String> statement = new ArrayList<>();
 
-
         ctx.status(200);
 
         for (Customer c : customers) {
-            String isCustom = "";
-            if(c.getDonut().getDonut_id() == 5){
-                isCustom = "("
-                        + c.getDonut().getCoating()+ " coating" + " , "
-                        + c.getDonut().getFilling() + " filling"+ " , "
-                        + c.getDonut().getTopping()+ " topping" + " , "
-                        + ")";
-            }
-
            statement.add("Order #"+c.getOrder_number() + " is " +
                    c.getFirst_name() + " " +c.getLast_name()+ " | order of " +
-                   c.getOrder_size() + " X " + c.getDonut().getDonut_name() +
-                   isCustom
+                   c.getOrder_size() + " X " + c.getDonut().getDonut_name()
            );
         }
         ctx.json(statement);
-//
-//        System.out.println(customers.get(0).getOrder_number());
+        logger.info("Customer orders successfully retrieved" + statement);
     }
 
     public static void handleCreateOrder(Context ctx){
@@ -104,7 +93,36 @@ public class CustomerController {
 
         }else{
             ctx.status(400);
-            logger.warn("Creation failed");
+            logger.warn("Order creation failed");
+        }
+    }
+
+    public static void handleUpdateDonutOrder(Context ctx){
+        int id;
+        try{
+            id = Integer.parseInt(ctx.pathParam("id"));
+
+        }catch(NumberFormatException e){
+            ctx.status(400);
+            logger.warn("unable to parse id = " + ctx.pathParam("id"));
+            return;
+        }
+        Customer submittedDonut = ctx.bodyAsClass(Customer.class);
+        boolean updateSuccessful = customerService.updateDonutOrder(
+                id,
+                submittedDonut.getDonut_id_fk()
+        );
+        if (updateSuccessful){
+            ctx.status(200);
+            ctx.result("Successfully updated order #" + id +" to menu item #" + submittedDonut.getDonut_id_fk());
+//                    + "'s donut to " + submittedDonut.getDonut_id_fk() + " | " + submittedDonut.getDonut().getDonut_name()
+//                    );
+            logger.info("Successfully updated order #" + id +" to Menu Item #" + submittedDonut.getDonut_id_fk());
+        }
+        else{
+            ctx.status(404);
+            ctx.result("Failed do update order");
+            logger.warn("Failed to update donut Order #"+ id + " to Menu Item #" + submittedDonut.getDonut_id_fk());
         }
     }
 
@@ -115,8 +133,6 @@ public class CustomerController {
         boolean updateSuccessful = customerService.updateCustomer(submittedCustomer.getFirst_name(),
                                                              submittedCustomer.getOrder_number());
 
-
-
         if(updateSuccessful){
             ctx.status(200);
             ctx.result("Order #"+submittedCustomer.getOrder_number()+"'s first name has been updated to: " + submittedCustomer.getFirst_name());
@@ -125,14 +141,13 @@ public class CustomerController {
         else{
             ctx.status(400);
             ctx.result("Failed to update order" + submittedCustomer.getOrder_number()+"'s first name");
-            logger.warn("Failed to update order" + submittedCustomer.getOrder_number()+"'s first name from " + submittedCustomer.getFirst_name() );
+            logger.warn("Failed to update order #" + submittedCustomer.getOrder_number()+"'s first name from " + submittedCustomer.getFirst_name() );
 
         }
     }
 
     public static void handleDeleteOrder(Context ctx){
         int id;
-
         try{
             id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -146,11 +161,14 @@ public class CustomerController {
 
         if(orderDeleted){
             ctx.status(200);
-            ctx.result("Successfully deleted order: " + id);
+            ctx.result("Successfully deleted order #" + id);
+            logger.info("Successfully deleted order #" + id);
         }
         else{
             ctx.status(400);
-            ctx.result("Number " + id +" does not exist");
+            ctx.result("Order #" + id +" does not exist");
+            logger.warn("Failed to deleted order #" + id);
+
         }
 
     }

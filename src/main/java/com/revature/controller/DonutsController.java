@@ -29,12 +29,15 @@ public class DonutsController {
             String topping = (d.getTopping() != null? d.getTopping() : "no");
             String filling = (d.getFilling() != null? d.getFilling() : "no");
 
-            statement.add(d.getDonut_id()+ " | "+ d.getDonut_name() + " has "
-                    + coating+ " coating, " + topping + " topping, "
-                    + filling + " filling"
+            statement.add(d.getDonut_id()+ " | " + d.getDonut_name()
+//                    + " has "
+//                    + coating+ " coating, " + topping + " topping, "
+//                    + filling + " filling"
             );
         }
         ctx.json(statement);
+
+        logger.info("Successfully retrieved menu list");
     }
 
     public static void handleGetById(Context ctx){
@@ -50,9 +53,9 @@ public class DonutsController {
 
         Donuts donut = donutsService.getDonutById(id);
 
-        String c = donut.getCoating() + " Coating |";
-        String t = donut.getTopping() + " Topping |";
-        String f = donut.getFilling()+ " Filling |";
+        String c = "Coating: "+ donut.getCoating() + " | ";
+        String t = "Topping: "+donut.getTopping() + " | ";
+        String f = "Filling: "+donut.getFilling()+ " | ";
 
         String coating= donut.getCoating() != null ? c : "";
         String topping= donut.getTopping() != null ? t : "";
@@ -66,7 +69,47 @@ public class DonutsController {
                     + topping
                     + filling
             );
+            logger.info("Successfully retrieved menu item #" + id);
         }
+        else{
+            ctx.status(400);
+            ctx.result("There is no menu item by the number " + id);
+            logger.warn("Failed to retrieved menu item #" + id);
+        }
+    }
+
+    public static void handleSample(Context ctx){
+
+        ctx.result(
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⠤⠤⠶⠒⠒⠒⠲⠦⠤⠤⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠖⠛⠋⠁⣘⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠯⢤⡤⠀⠉⠉⠛⠲⠤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠛⠁⠀⠀⠀⠀⢘⣯⢿⠂⠀⠀⠀⠀⠀⢀⠀⠀⠀⠛⠛⠋⠃⠀⠀⠀⠀⠀⠀⠀⠉⠓⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠞⠁⠀⢠⡤⢤⣤⡀⠀⠀⠻⠛⠀⠀⠀⠠⣿⣯⣽⠛⠀⠀⠀⠀⠀⠀⠰⣶⣶⠀⠀⠀⢠⣼⢻⡄⠈⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠈⠛⠓⠛⠀⠀⣠⣤⣄⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⣼⡆⠀⠀⠈⡿⠟⠀⠀⠀⠈⠳⣄⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⢀⣴⠏⠀⢠⡤⠤⣤⠀⠀⠀⠀⠀⠀⠀⠨⣷⣽⡀⠀⠀⠀⠀⠀⠀⢠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡿⢦⡄⠀⠘⢧⡀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⢠⡞⠃⠀⠀⠘⠛⠛⠃⠀⠀⣀⣤⣀⠀⠀⠀⠀⠉⠀⠀⡶⣦⠀⠀⠀⠈⠻⣭⣿⠀⠀⠀⢀⣀⠀⢀⣶⣴⣀⠀⠀⠈⠻⣼⡇⠀⢐⣅⠹⡄⠀⠀⠀\n" +
+                        "⠀⠀⢠⡏⢰⣆⠀⠀⠀⠀⠀⠀⠠⣾⣯⠿⠛⠀⠀⠀⠀⠀⠀⠀⢿⣼⠀⠀⠀⠀⠈⠁⠀⠀⠀⣴⠟⡿⠀⠈⠛⠲⠿⠇⠀⠀⠀⠀⠀⠀⢸⡟⢷⠼⣆⠀⠀\n" +
+                        "⠀⢠⡏⠀⢸⣹⡇⠀⠀⡀⠀⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠉⠳⣄⠀⠀⠀⠉⠋⠁⠀⠀⠀⠀⠀⠀⢠⣠⡀⠀⠀⠀⠘⠛⠋⠀⠹⡆⠀\n" +
+                        "⢀⡾⠀⠀⠘⠙⠃⠀⢼⣻⡆⠀⠀⢠⢷⡄⠀⠀⠀⠀⣠⠞⠋⠉⠉⠛⠛⠁⠀⠀⠀⠈⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣯⡽⠋⠀⠀⠀⠀⠀⠀⠀⠀⢹⡆\n" +
+                        "⢸⠃⠀⠀⠀⠀⠀⠀⠸⢷⠏⠀⠀⢺⣦⣷⠀⠀⠀⡾⠁⠀⠀⠀⠀⣀⣠⠤⠤⠤⣄⣀⠀⠈⠓⠲⠦⣀⠀⠀⠀⠀⠀⠈⠉⠀⠀⢀⡶⢖⣲⡆⠀⡀⠀⠀⢧\n" +
+                        "⡜⠀⣶⣒⣺⡆⠀⠀⠀⠀⣐⣤⢄⠀⠈⠀⠀⠀⢸⠁⠀⠀⣠⠶⠋⠁⠀⠀⠀⠀⠀⠈⠙⠶⣄⠀⠀⠈⢷⡀⠀⠀⠀⠀⠀⢀⡀⠸⠿⠉⠁⠁⠸⣿⣓⣶⢸\n" +
+                        "⡇⠀⠈⠉⠉⠀⠀⠀⠀⠘⢿⣍⣷⠆⠀⠀⠀⠀⢸⡀⠀⣶⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠷⡀⠀⢸⡇⠀⠀⠀⠀⠘⢿⣙⣶⡆⠀⠀⠀⠀⠀⠉⠋⢸\n" +
+                        "⡇⠀⠀⠀⠠⢹⢳⡄⠀⠀⠀⠉⠉⠀⠀⡴⣤⠀⠉⣷⣼⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣤⡟⠁⢀⣴⢶⣄⠀⠀⠹⠛⠁⠀⠀⠀⣠⣤⠀⢀⢸\n" +
+                        "⣿⠀⠀⠀⠀⠘⠿⡇⠀⠀⠀⠀⠀⠀⠀⢿⣼⡄⠀⠈⢿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠟⠀⠀⠺⠾⠋⠀⠀⠀⠀⣄⠀⠀⠀⢸⣷⡟⠀⢸⡼\n" +
+                        "⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠙⠶⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡟⣇⠀⠀⠀⠉⠀⠀⢠⡇\n" +
+                        "⠸⣇⠀⠀⣴⢖⣳⠆⠀⠀⠀⠀⠀⢀⣤⣴⣶⠀⠀⠀⠀⠀⠀⠉⠙⠶⠤⣄⣀⣀⣀⣤⠶⠞⠉⠀⠀⢀⣶⠶⣄⡀⠀⠀⠀⠀⠈⠛⠛⠀⠀⣀⡀⠀⠀⣸⠇\n" +
+                        "⠀⠸⣆⠀⠙⠚⠁⠀⠀⠀⣴⡶⡄⢻⡷⠚⠋⠀⠀⠀⠀⣶⢶⡀⠀⠀⠀⠀⢔⣤⣀⠀⠀⠀⠀⠀⠀⠀⠨⠓⠛⠁⠀⠀⣠⡶⣶⡇⠀⠀⠈⣧⣱⠀⢠⡟⠀\n" +
+                        "⠀⠀⠹⣧⡄⠀⠀⠀⠀⠀⠘⢷⡿⠀⠀⠀⠀⠀⠀⠀⠀⠿⣦⣷⠀⠀⠀⠀⠙⣿⣿⡆⠀⢀⣶⡦⣄⣀⠀⠀⠀⠀⠀⠠⣿⠾⠃⠀⠀⠀⠀⠈⢙⣱⣿⠃⠀\n" +
+                        "⠀⠀⠀⠸⡏⠳⣤⣄⣀⣀⣀⠀⠀⠀⠀⠴⡟⣦⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠩⠓⢻⠋⠀⠀⠀⢀⣤⣤⣨⠀⠀⠀⠀⢀⣠⡴⠚⢱⠇⠀⠀\n" +
+                        "⠀⠀⠀⠀⠹⡄⠀⠀⠀⠉⠙⠓⢦⡀⠀⠀⠻⢿⠀⠀⠀⢀⣠⣤⢼⡄⠀⠀⢀⣤⡴⣿⠀⠀⠀⠀⢀⣠⡄⠀⠀⠘⠓⠲⠛⣀⣤⠴⠚⠋⠁⠀⣰⠏⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠸⣆⠀⠀⠀⠀⠀⠀⠙⢦⠀⠀⠀⠀⠀⠀⠈⠻⠿⠋⠀⠀⠀⠼⠿⠛⠋⠀⠀⠀⣴⣿⡴⠃⠀⠀⠀⠀⢀⡼⠋⠀⠀⠀⠀⠀⣸⠃⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠘⢧⡀⠀⠀⠀⠀⠀⠈⢧⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠿⠳⢦⡀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⣠⠟⠀⠀⠀⠀⠀⢠⡞⠃⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠹⣄⠀⠀⠀⠀⠀⠀⠙⢦⣀⠀⠀⠀⣀⣤⠞⠋⠀⠀⠀⠀⠉⠓⢤⣀⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣄⡀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠓⠒⠐⠒⠚⠉⠀⠀⠀⠀⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠲⢤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡤⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠓⠒⠤⠤⠤⣤⣤⣤⡤⠤⠤⠤⠒⠒⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+        );
     }
 
     //-------------------------------------------------------------

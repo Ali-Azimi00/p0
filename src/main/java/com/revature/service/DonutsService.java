@@ -11,12 +11,11 @@ public class DonutsService {
     private final DonutsDAOInterface donutsDAO = new DonutsDAO();
 
     public Donuts getDonutById(int id){
-
-        if(id>0 && id < 6){
+        if(id > 0 && id < 6){
             return donutsDAO.getDonutById(id);
         }
         else{
-            System.out.println("Order number is not an option, choose bewtween Donut order 1-6 ");
+            System.out.println("Order number is not an option, choose between Donut order 1-6 ");
             return null;
         }
     }
@@ -79,6 +78,8 @@ public class DonutsService {
 
         return donutsDAO.updateCustomDonut(formattedCoating,formattedTopping,formattedFilling);
     };
+
+
 
     //TODO getAll
 

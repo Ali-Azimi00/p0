@@ -140,6 +140,7 @@ public class CustomerDAO implements CustomerDAOInterface {
         return null;
     }
 
+
     @Override
     public boolean updateCustomer(String first_name, int order_number) {
         try(Connection conn = ConnectionUtil.getConnection()){
@@ -161,7 +162,31 @@ public class CustomerDAO implements CustomerDAOInterface {
         }
 
         return false;
-    };
+    }
+
+//
+    @Override
+    public boolean updateDonutId(int order_number, int donut_id) {
+        try(Connection conn = ConnectionUtil.getConnection()){
+            String sql = "UPDATE customer SET donut_id_fk = ?  WHERE order_number = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1,donut_id);
+            ps.setInt(2,order_number);
+
+            ps.executeUpdate();
+
+            return true;
+
+        }catch(SQLException e){
+            System.out.println("failed to updated donut order");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    ;
 
 
     @Override
@@ -186,5 +211,31 @@ public class CustomerDAO implements CustomerDAOInterface {
         }
     }
 
+
+
+
+//    @Override
+//    public boolean updateCustomer(String first_name, String last_name, int order_number) {
+//        try(Connection conn = ConnectionUtil.getConnection()){
+//
+//            String sql = "UPDATE customer SET first_name = ? , lastName = ? WHERE order_number = ?";
+//
+//            PreparedStatement ps= conn.prepareStatement(sql);
+//
+//            ps.setString(1,first_name);
+//            ps.setString(2,last_name);
+//            ps.setInt(3,order_number);
+//
+//            ps.executeUpdate();
+//
+//            return true;
+//
+//        }catch(SQLException e){
+//            System.out.println("Failed to update customer first and last name");
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
 
 }

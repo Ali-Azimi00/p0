@@ -16,6 +16,10 @@ public interface CustomerDAOInterface {
     ArrayList<Customer> getAllCustomerOrders();
 
     boolean updateCustomer(String first_name,int order_number);
+//    boolean updateCustomer(String first_name, String last_name, int order_number);
+
+    boolean updateDonutId(int order_number, int donut_id);
+
 
     void deleteCustomerByNumber(int order_number);
 

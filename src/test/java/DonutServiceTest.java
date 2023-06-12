@@ -20,6 +20,6 @@ public class DonutServiceTest {
     @Test
     public void getDonutIdWithinBounds(){
         //There is no donut order above 5
-        assertNull(donutsService.getDonutById(6));
+        assertNull(donutsService.getDonutById(5));
     }
 }
